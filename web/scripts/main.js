@@ -1,8 +1,11 @@
 // select HTML elements in the document
 const weatherIcon = document.querySelector("#weathericon");
 const weatherDesc = document.querySelector("#weatherdesc");
+const weatherTemp = document.querySelector("#temperature");
+const weatherWind = document.querySelector("#windspeed");
 
 function displayResults(weatherData) {
+  // You can use @2x or @4x to make the icon bigger, or omit it for the standard size
   const iconsrc = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`
   const desc = weatherData.weather[0].description;
   const main = weatherData.weather[0].main;
@@ -10,6 +13,8 @@ function displayResults(weatherData) {
   weatherIcon.setAttribute('src', iconsrc);
   weatherIcon.setAttribute('alt', desc);
   weatherDesc.textContent = main; 
+  weatherTemp.textContent = weatherData.main.temp.toFixed(0);
+  weatherWind.textContent = weatherData.wind.speed.toFixed(0);  
 }
 
 async function getTheWeather() {
@@ -61,3 +66,20 @@ async function getBusinessData() {
 }
 
 getBusinessData();
+
+function doJoinFlag(){
+  let join_flag = localStorage.getItem("join_flag")
+  if (join_flag == null){
+    return;
+  }
+  document.querySelector(".join-original").style.display = 'none';    
+  document.querySelector(".join-new").style.display = 'none';
+  if (join_flag == 'enabled'){
+    document.querySelector(".join-new").style.display = 'block';    
+  }
+  if (join_flag == 'disabled'){
+    document.querySelector(".join-original").style.display = 'block';
+  }
+}
+
+doJoinFlag();
